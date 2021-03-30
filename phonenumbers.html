@@ -1,0 +1,77 @@
+<script type="text/javascript">
+    RED.nodes.registerType('phone-number',{
+        category: 'parser',
+        color: '#3FADB5',
+        defaults: {
+            name: {value:""},
+            number : {value: ""},
+            country : {value: ""},
+            useplus : {}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "hash.svg",
+        label: function() {
+            return this.name||"phone-number";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="phone-number">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-number"> Number</label>
+        <input type="text" id="node-input-number" placeholder="212 555 1212">
+    </div>
+    <div class="form-row">
+        <label for="node-input-country">Country</label>
+        <input type="text" id="node-input-country" placeholder="US">
+    </div>
+    <div class="form-row">
+        <label for="node-input-useplus">e.164 should start with a <code>+</code></label>
+        <input type="checkbox" id="node-input-useplus">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="phone-number">
+    <p>A  node that provides phone number validation and formatting based on <a href="https://www.npmjs.com/package/google-libphonenumber">Google libphonenumber</a></p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt><span class="property-type">string</span></dt>
+        <dd> <code>msg.payload</code>The input number</dd>
+        <dt><span class="property-type">string</span></dt>
+        <dd> <code>msg.topic</code> The country code that the number is being called <b>from</b></dd>
+    </dl>
+     <h3>Outputs</h3>
+     <dl class="message-properties">
+        <dt><span class="property-type">string</span></dt>
+        <dd><code>msg.payload.countryCode </code> The International Dialling Code for the number<br>
+
+        <dt><span class="property-type">string</span></dt>
+        <dd><code>msg.payload.nationalNumber </code> The National part of the number</dd>
+
+        <dt><span class="property-type">string</span></dt>
+        <dd><code>msg.payload.extension </code> The extension (if specified)</dd>
+
+            <dt><span class="property-type">bool</span></dt>
+            <dd><code>msg.payload.isValidNumber </code> Validates that the number is the correct number of digits and in a valid number range for the country.</dd>
+
+            <dt><span class="property-type">enum</span></dt>
+            <dd><code>msg.payload.numberType </code> The type of number; <code> FIXED_LINE, MOBILE, FIXED_LINE_OR_MOBILE, TOLL_FREE, PREMIUM_RATE,<br> SHARED_COST, VOIP, PERSONAL_NUMBER, PAGER, UAN, VOICEMAIL, UNKNOWN</code></dd>
+
+            <dt><span class="property-type">string</span></dt>
+            <dd><code>msg.payload.e164 </code> The number in e.164 format, you can control whether the number is prefixed with a <code>+</code> using the checkbox in the node. The question of which format is correct for e.164 would be an eccumenical matter. </dd>
+
+            <dt><span class="property-type">string</span></dt>
+            <dd><code>msg.payload.nationalFormat </code> The number formatted for display in a National Format </dd>
+
+            <dt><span class="property-type">string</span></dt>
+            <dd><code>msg.payload.internationalFormat</code> The number formatted for display in an International Format</dd>
+     </dl>
+
+
+</script>
